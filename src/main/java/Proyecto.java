@@ -59,10 +59,10 @@ public class Proyecto {
     }
 
     public static void agregarOrden() {
-        System.out.print("Ingrese el nombre del cliente: ");
+        System.out.println("Ingrese el nombre del cliente: ");
         String clienteNombre = scanner.nextLine();
 
-        System.out.print("Ingrese el problema reportado: ");
+        System.out.println("Ingrese el problema reportado: ");
         String problema = scanner.nextLine();
 
         System.out.print("Ingrese la fecha de recepción (YYYY-MM-DD): ");
@@ -85,7 +85,7 @@ public class Proyecto {
 
 
     public static void actualizarOrden() {
-        System.out.print("Ingrese el número de orden que desea actualizar: ");
+        System.out.println("Ingrese el número de orden que desea actualizar: ");
         int numeroOrden = scanner.nextInt();
         scanner.nextLine();  // Consumir el salto de línea
 
@@ -109,7 +109,7 @@ public class Proyecto {
             System.out.println("Estado: " + ordenEncontrada.estado);
 
             // Solicitar y actualizar el estado de la orden
-            System.out.print("Ingrese el nuevo estado de la orden (En proceso, Completado): ");
+            System.out.println("Ingrese el nuevo estado de la orden (En proceso, Completado): ");
             String nuevoEstado = scanner.nextLine();
             ordenEncontrada.setEstado(nuevoEstado);
 
@@ -126,6 +126,3 @@ public class Proyecto {
         servicio.mostrarOrdenesPorEstado("");
     }
 }
-
-
-
