@@ -88,7 +88,7 @@ public class Proyecto {
             System.out.println("Estado: " + ordenEncontrada.estado);
 
             // Solicitar y actualizar el estado de la orden
-            System.out.print("Ingrese el nuevo estado de la orden (En proceso, Completado): ");
+            System.out.println("Ingrese el nuevo estado de la orden (En proceso, Completado): ");
             String nuevoEstado = scanner.nextLine();
             ordenEncontrada.setEstado(nuevoEstado);
 
