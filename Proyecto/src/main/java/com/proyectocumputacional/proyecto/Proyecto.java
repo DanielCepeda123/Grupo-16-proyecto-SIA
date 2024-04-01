@@ -19,7 +19,7 @@ public class Proyecto {
                 System.out.println("2) Actualizar Orden de Trabajo");
                 System.out.println("3) Mostrar Todas las Órdenes de Trabajo");
                 System.out.println("4) Salir");
-                System.out.print("Seleccione una opción: ");
+                System.out.println("Seleccione una opción: ");
 
                 opcion = scanner.nextInt();
                 scanner.nextLine();  // Consumir el salto de línea
@@ -38,13 +38,13 @@ public class Proyecto {
     }
 
     public static void agregarOrden() {
-        System.out.print("Ingrese el nombre del cliente: ");
+        System.out.println("Ingrese el nombre del cliente: ");
         String clienteNombre = scanner.nextLine();
 
-        System.out.print("Ingrese el problema reportado: ");
+        System.out.println("Ingrese el problema reportado: ");
         String problema = scanner.nextLine();
 
-        System.out.print("Ingrese la fecha de recepción (YYYY-MM-DD): ");
+        System.out.println("Ingrese la fecha de recepción (YYYY-MM-DD): ");
         String fecha = scanner.nextLine();
 
         numeroOrden++;  // Incrementar el número de orden
@@ -64,7 +64,7 @@ public class Proyecto {
 
 
     public static void actualizarOrden() {
-        System.out.print("Ingrese el número de orden que desea actualizar: ");
+        System.out.println("Ingrese el número de orden que desea actualizar: ");
         int numeroOrden = scanner.nextInt();
         scanner.nextLine();  // Consumir el salto de línea
 
