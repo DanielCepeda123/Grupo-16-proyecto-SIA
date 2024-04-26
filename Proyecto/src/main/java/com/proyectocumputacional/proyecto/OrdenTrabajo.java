@@ -1,10 +1,10 @@
 package com.proyectocumputacional.proyecto;
 
 public class OrdenTrabajo {
-    int idOrden;
-    String problema;
-    String fecha;
-    String estado;
+    private int idOrden;
+    private String problema;
+    private String fecha;
+    private  String estado;
     private Cliente cliente;
 
     // Constructor para establecer todos los atributos de la orden excepto el cliente
@@ -33,6 +33,30 @@ public class OrdenTrabajo {
     // Método setter para establecer el estado de la orden
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+    
+    public void setFecha(String fecha){
+        this.fecha = fecha;
+    }
+    
+    public String getFecha(){
+        return this.fecha;
+    }
+    
+    public void setProblema(String problema){
+        this.problema = problema;
+    }
+    
+    public String getProblema(){
+        return this.problema;
+    }
+    
+    public void setIdOrden(int idOrden){
+        this.idOrden = idOrden;
+    }
+    
+    public int getIdOrden(){
+        return this.idOrden;
     }
     
     // Constructor estático para crear una nueva OrdenTrabajo
