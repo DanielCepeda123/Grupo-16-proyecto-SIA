@@ -19,7 +19,7 @@ public class Proyecto {
                 System.out.println("2) Actualizar Orden de Trabajo");
                 System.out.println("3) Mostrar Todas las Órdenes de Trabajo");
                 System.out.println("4) Salir");
-                System.out.print("Seleccione una opción: ");
+                System.out.println("Seleccione una opción: ");
 
                 opcion = scanner.nextInt();
                 scanner.nextLine();  // Consumir el salto de línea
@@ -105,7 +105,7 @@ public class Proyecto {
                 nuevaOrden = new OrdenTrabajoUrgente(numeroOrden, problema, fecha, "Pendiente", true);
             } else {
                 nuevaOrden = OrdenTrabajo.crearOrden(problema, fecha, "Pendiente");
-                nuevaOrden.idOrden = numeroOrden;
+                nuevaOrden.setIdOrden(numeroOrden);
             }
 
             nuevaOrden.setCliente(nuevoCliente);
@@ -129,7 +129,7 @@ public class Proyecto {
 
             // Buscar la orden de trabajo por su número de orden
             for (OrdenTrabajo orden : servicio.getOrdenes()) {
-                if (orden.idOrden == numeroOrden) {
+                if (orden.getIdOrden() == numeroOrden) {
                     ordenEncontrada = orden;
                     break;
                 }
@@ -173,16 +173,16 @@ public class Proyecto {
             OrdenTrabajo orden = ordenes.get(i);
 
             System.out.println("----------------------------------");
-            System.out.println("Número de orden: " + orden.idOrden);
+            System.out.println("Número de orden: " + orden.getIdOrden());
             System.out.println("Cliente: " + orden.getCliente().getNombre());
             System.out.println("Correo del cliente: " + orden.getCliente().getCorreo());
             System.out.println("Teléfono del cliente: " + orden.getCliente().getTelefono());
             if (orden.getCliente() instanceof ClienteVIP) {
                 System.out.println("Beneficios VIP: " + ((ClienteVIP) orden.getCliente()).getBeneficios());
             }
-            System.out.println("Problema: " + orden.problema);
-            System.out.println("Fecha de recepción: " + orden.fecha);
-            System.out.println("Estado: " + orden.estado);
+            System.out.println("Problema: " + orden.getProblema());
+            System.out.println("Fecha de recepción: " + orden.getFecha());
+            System.out.println("Estado: " + orden.getEstado());
             System.out.println("Es urgente: " + orden.esUrgente());
         }
     }
