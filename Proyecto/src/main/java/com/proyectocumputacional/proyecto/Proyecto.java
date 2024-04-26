@@ -19,7 +19,7 @@ public class Proyecto {
                 System.out.println("2) Actualizar Orden de Trabajo");
                 System.out.println("3) Mostrar Todas las Órdenes de Trabajo");
                 System.out.println("4) Salir");
-                System.out.println("Seleccione una opción: ");
+                System.out.print("Seleccione una opción: ");
 
                 opcion = scanner.nextInt();
                 scanner.nextLine();  // Consumir el salto de línea
@@ -36,56 +36,112 @@ public class Proyecto {
             } while (opcion != 4);
         }
     }
+    
+    public static class OrdenInvalidaException extends Exception {
+        public OrdenInvalidaException(String mensaje) {
+            super(mensaje);
+        }
+    }
+
+    public static class ClienteNoEncontradoException extends Exception {
+        public ClienteNoEncontradoException(String mensaje) {
+            super(mensaje);
+        }
+    }
+
 
     public static void agregarOrden() {
-        System.out.println("Ingrese el nombre del cliente: ");
-        String clienteNombre = scanner.nextLine();
+        try {
+            System.out.println("Ingrese el nombre del cliente: ");
+            String clienteNombre = scanner.nextLine();
 
-        System.out.println("Ingrese el problema reportado: ");
-        String problema = scanner.nextLine();
+            System.out.println("Ingrese el correo del cliente: ");
+            String clienteCorreo = scanner.nextLine();
 
-        System.out.println("Ingrese la fecha de recepción (YYYY-MM-DD): ");
-        String fecha = scanner.nextLine();
+            System.out.println("Ingrese el número de teléfono del cliente: ");
+            String clienteTelefono = scanner.nextLine();
 
-        numeroOrden++;  // Incrementar el número de orden
+            System.out.println("¿Es un cliente VIP? (s/n): ");
+            String esVIPInput = scanner.nextLine();
+            boolean esVIP = esVIPInput.equalsIgnoreCase("s");
 
-        // Crear una nueva orden con el número de orden, problema, fecha y estado "Pendiente"
-        OrdenTrabajo nuevaOrden = new OrdenTrabajo();
-        nuevaOrden.setOrden(numeroOrden, problema, fecha, "Pendiente");
+            Cliente nuevoCliente;
+            if (esVIP) {
+                System.out.println("Ingrese los beneficios VIP: ");
+                String beneficios = scanner.nextLine();
+                nuevoCliente = new Cliente.Builder()
+                    .setNombre(clienteNombre)
+                    .setCorreo(clienteCorreo)
+                    .setTelefono(clienteTelefono)
+                    .setBeneficios(beneficios)
+                    .build();
+            } else {
+                nuevoCliente = new Cliente.Builder()
+                    .setNombre(clienteNombre)
+                    .setCorreo(clienteCorreo)
+                    .setTelefono(clienteTelefono)
+                    .build();
+            }
 
-        Cliente nuevoCliente = new Cliente();
-        nuevoCliente.setNombre(clienteNombre);
-        nuevaOrden.setCliente(nuevoCliente);
+            System.out.println("Ingrese el problema reportado: ");
+            String problema = scanner.nextLine();
 
-        servicio.agregarOrden(nuevaOrden);
+            System.out.println("Ingrese la fecha de recepción (YYYY-MM-DD): ");
+            String fecha = scanner.nextLine();
 
-        System.out.println("Orden de trabajo agregada correctamente. Número de orden: " + numeroOrden);
+            if (problema.isEmpty() || fecha.isEmpty()) {
+                throw new OrdenInvalidaException("El problema y la fecha son obligatorios.");
+            }
+
+            System.out.println("¿El problema es urgente? (s/n): ");
+            String esUrgenteInput = scanner.nextLine();
+            boolean esUrgente = esUrgenteInput.equalsIgnoreCase("s");
+
+            numeroOrden++;  // Incrementar el número de orden
+
+            // Crear una nueva orden con el número de orden, problema, fecha y estado "Pendiente"
+            OrdenTrabajo nuevaOrden;
+            if (esUrgente) {
+                nuevaOrden = new OrdenTrabajoUrgente(numeroOrden, problema, fecha, "Pendiente", true);
+            } else {
+                nuevaOrden = OrdenTrabajo.crearOrden(problema, fecha, "Pendiente");
+                nuevaOrden.idOrden = numeroOrden;
+            }
+
+            nuevaOrden.setCliente(nuevoCliente);
+
+            servicio.agregarOrden(nuevaOrden);
+
+            System.out.println("Orden de trabajo agregada correctamente. Número de orden: " + numeroOrden);
+        } catch (OrdenInvalidaException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
     public static void actualizarOrden() {
-        System.out.println("Ingrese el número de orden que desea actualizar: ");
-        int numeroOrden = scanner.nextInt();
-        scanner.nextLine();  // Consumir el salto de línea
+        try {
+            System.out.println("Ingrese el número de orden que desea actualizar: ");
+            int numeroOrden = scanner.nextInt();
+            scanner.nextLine();  // Consumir el salto de línea
 
-        OrdenTrabajo ordenEncontrada = null;
+            OrdenTrabajo ordenEncontrada = null;
 
-        // Buscar la orden de trabajo por su número de orden
-        for (OrdenTrabajo orden : servicio.getOrdenes()) {
-            if (orden.idOrden == numeroOrden) {
-                ordenEncontrada = orden;
-                break;
+            // Buscar la orden de trabajo por su número de orden
+            for (OrdenTrabajo orden : servicio.getOrdenes()) {
+                if (orden.idOrden == numeroOrden) {
+                    ordenEncontrada = orden;
+                    break;
+                }
             }
-        }
 
-        if (ordenEncontrada != null) {
-            // Mostrar los detalles de la orden encontrada
-            System.out.println("Detalles de la orden de trabajo:");
-            System.out.println("Número de orden: " + ordenEncontrada.idOrden);
-            System.out.println("Cliente: " + ordenEncontrada.getCliente().getNombre());
-            System.out.println("Problema: " + ordenEncontrada.problema);
-            System.out.println("Fecha de recepción: " + ordenEncontrada.fecha);
-            System.out.println("Estado: " + ordenEncontrada.estado);
+            if (ordenEncontrada == null) {
+                throw new OrdenInvalidaException("Número de orden no válido.");
+            }
+
+            if (ordenEncontrada.getCliente() == null) {
+                throw new ClienteNoEncontradoException("Cliente no encontrado para la orden " + numeroOrden);
+            }
 
             // Solicitar y actualizar el estado de la orden
             System.out.println("Ingrese el nuevo estado de la orden (En proceso, Completado): ");
@@ -94,9 +150,11 @@ public class Proyecto {
 
             servicio.actualizarOrden(ordenEncontrada);
 
-            System.out.println("Estado de la orden actualizado correctamente.");
-        } else {
-            System.out.println("Número de orden no válido.");
+            System.out.println("Orden de trabajo actualizada correctamente.");
+        } catch (OrdenInvalidaException e) {
+            System.out.println(e.getMessage());
+        } catch (ClienteNoEncontradoException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -117,10 +175,15 @@ public class Proyecto {
             System.out.println("----------------------------------");
             System.out.println("Número de orden: " + orden.idOrden);
             System.out.println("Cliente: " + orden.getCliente().getNombre());
+            System.out.println("Correo del cliente: " + orden.getCliente().getCorreo());
+            System.out.println("Teléfono del cliente: " + orden.getCliente().getTelefono());
+            if (orden.getCliente() instanceof ClienteVIP) {
+                System.out.println("Beneficios VIP: " + ((ClienteVIP) orden.getCliente()).getBeneficios());
+            }
             System.out.println("Problema: " + orden.problema);
             System.out.println("Fecha de recepción: " + orden.fecha);
             System.out.println("Estado: " + orden.estado);
+            System.out.println("Es urgente: " + orden.esUrgente());
         }
     }
-
 }
