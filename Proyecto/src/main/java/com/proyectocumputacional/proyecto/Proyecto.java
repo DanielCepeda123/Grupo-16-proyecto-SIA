@@ -18,7 +18,8 @@ public class Proyecto {
                 System.out.println("1) Agregar Nueva Orden de Trabajo");
                 System.out.println("2) Actualizar Orden de Trabajo");
                 System.out.println("3) Mostrar Todas las Órdenes de Trabajo");
-                System.out.println("4) Salir");
+                System.out.println("4) Eliminar orden");
+                System.out.println("5) Salir");
                 System.out.println("Seleccione una opción: ");
 
                 opcion = scanner.nextInt();
@@ -29,11 +30,12 @@ public class Proyecto {
                     case 1 -> agregarOrden();
                     case 2 -> actualizarOrden();
                     case 3 -> mostrarOrdenes();
-                    case 4 -> System.out.println("Saliendo...");
+                    case 4 -> eliminarOrdenes();
+                    case 5 -> System.out.println("Saliendo...");
                     default -> System.out.println("Opción no válida. Intente nuevamente.");
                 }
 
-            } while (opcion != 4);
+            } while (opcion != 5);
         }
     }
     
@@ -185,5 +187,16 @@ public class Proyecto {
             System.out.println("Estado: " + orden.getEstado());
             System.out.println("Es urgente: " + orden.esUrgente());
         }
+    }
+    
+    public static void eliminarOrdenes(){
+
+        System.out.println("Ingrese el número de la orden que desea eliminar: ");
+        int idOrden = scanner.nextInt();
+        scanner.nextLine();
+
+        // Llamar al método para eliminar la orden por su ID
+        servicio.eliminarOrden(idOrden);
+    
     }
 }
