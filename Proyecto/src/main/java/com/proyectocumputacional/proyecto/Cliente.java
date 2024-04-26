@@ -1,60 +1,80 @@
 package com.proyectocumputacional.proyecto;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Cliente {
     private String nombre;
     private String correo;
     private String telefono;
+    private Map<String, Object> attributes;
 
-    // Setter sobrecargado para establecer el nombre
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    protected Cliente(Builder builder) {
+        this.nombre = builder.nombre;
+        this.correo = builder.correo;
+        this.telefono = builder.telefono;
+        this.attributes = builder.attributes;
     }
 
-    // Setter sobrecargado para establecer el nombre y el correo
-    public void setNombre(String nombre, String correo) {
-        this.nombre = nombre;
-        this.correo = correo;
+    public static class Builder {
+        private String nombre;
+        private String correo;
+        private String telefono;
+        private Map<String, Object> attributes = new HashMap<>();
+
+        public Builder setNombre(String nombre) {
+            this.nombre = nombre;
+            return this;
+        }
+
+        public Builder setCorreo(String correo) {
+            this.correo = correo;
+            return this;
+        }
+
+        public Builder setTelefono(String telefono) {
+            this.telefono = telefono;
+            return this;
+        }
+
+        public Builder setAttribute(String key, Object value) {
+            attributes.put(key, value);
+            return this;
+        }
+
+        public Builder setBeneficios(String beneficios) {
+            setAttribute("beneficios", beneficios);  // Agregar beneficios como un atributo
+            return this;
+        }
+
+        public Cliente build() {
+            return new Cliente(this);
+        }
     }
 
-    // Setter sobrecargado para establecer el nombre, el correo y el teléfono
-    public void setNombre(String nombre, String correo, String telefono) {
-        this.nombre = nombre;
-        this.correo = correo;
-        this.telefono = telefono;
-    }
-
-    // Setter para establecer el correo
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    // Setter para establecer el teléfono
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    // Getter para obtener el nombre
     public String getNombre() {
         return nombre;
     }
 
-    // Getter para obtener el correo
     public String getCorreo() {
         return correo;
     }
 
-    // Getter para obtener el teléfono
     public String getTelefono() {
         return telefono;
     }
 
-    // Método toString para mostrar la información del cliente
+    public Object getAttribute(String key) {
+        return attributes.get(key);
+    }
+
     @Override
     public String toString() {
         return "Cliente{" +
                 "nombre='" + nombre + '\'' +
                 ", correo='" + correo + '\'' +
                 ", telefono='" + telefono + '\'' +
+                ", attributes=" + attributes +
                 '}';
     }
 }
