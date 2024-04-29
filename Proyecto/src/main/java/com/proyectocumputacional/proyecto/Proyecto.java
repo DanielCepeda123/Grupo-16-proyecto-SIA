@@ -79,7 +79,7 @@ public class Proyecto {
             String fecha = scanner.nextLine();
 
             if (problema.isEmpty() || fecha.isEmpty()) {
-                throw new OrdenInvalidaException("El problema y la fecha son obligatorios.");
+                throw new ProyectoException.OrdenInvalidaException("El problema y la fecha son obligatorios.");
             }
 
             System.out.println("¿El problema es urgente? (s/n): ");
@@ -102,7 +102,7 @@ public class Proyecto {
             servicio.agregarOrden(nuevaOrden);
 
             System.out.println("Orden de trabajo agregada correctamente. Número de orden: " + numeroOrden);
-        } catch (OrdenInvalidaException e) {
+        } catch (ProyectoException.OrdenInvalidaException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -125,11 +125,11 @@ public class Proyecto {
             }
 
             if (ordenEncontrada == null) {
-                throw new OrdenInvalidaException("Número de orden no válido.");
+                throw new ProyectoException.OrdenInvalidaException("Número de orden no válido.");
             }
 
             if (ordenEncontrada.getCliente() == null) {
-                throw new ClienteNoEncontradoException("Cliente no encontrado para la orden " + numeroOrden);
+                throw new ProyectoException.ClienteNoEncontradoException("Cliente no encontrado para la orden " + numeroOrden);
             }
 
             // Solicitar y actualizar el estado de la orden
@@ -140,9 +140,9 @@ public class Proyecto {
             servicio.actualizarOrden(ordenEncontrada);
 
             System.out.println("Orden de trabajo actualizada correctamente.");
-        } catch (OrdenInvalidaException e) {
+        } catch (ProyectoException.OrdenInvalidaException e) {
             System.out.println(e.getMessage());
-        } catch (ClienteNoEncontradoException e) {
+        } catch (ProyectoException.ClienteNoEncontradoException e) {
             System.out.println(e.getMessage());
         }
     }
