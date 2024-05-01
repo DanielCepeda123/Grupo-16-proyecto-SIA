@@ -11,14 +11,9 @@ public class OrdenTrabajoUrgente extends OrdenTrabajo {
     public void setEsUrgente(boolean esUrgente) {
         this.esUrgente = esUrgente;
     }
-    
-    @Override
-    public boolean esUrgente() {
-        return true;  // Una OrdenTrabajoUrgente siempre es urgente
-    }
 
     @Override
-    public String toString() {
-        return super.toString() + ", esUrgente=" + esUrgente;
+    public boolean esUrgente() {
+        return this.esUrgente;
     }
 }

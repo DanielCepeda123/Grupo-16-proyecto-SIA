@@ -8,7 +8,8 @@ public class Cliente {
     private String correo;
     private String telefono;
     private Map<String, Object> attributes;
-
+    private String tiempoFinalizacion; 
+    
     protected Cliente(Builder builder) {
         this.nombre = builder.nombre;
         this.correo = builder.correo;
@@ -67,6 +68,15 @@ public class Cliente {
     public Object getAttribute(String key) {
         return attributes.get(key);
     }
+    
+    public void setTiempoFinalizacion(String tiempoFinalizacion) {
+        this.tiempoFinalizacion = tiempoFinalizacion;
+    }
+
+    public String getTiempoFinalizacion() {
+        return tiempoFinalizacion;
+    }
+    
 
     @Override
     public String toString() {

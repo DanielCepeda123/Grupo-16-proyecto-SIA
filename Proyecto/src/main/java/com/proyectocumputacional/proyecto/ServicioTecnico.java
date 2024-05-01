@@ -28,32 +28,4 @@ public class ServicioTecnico {
         }
         return ordenes;
     }
-
-    // Método para mostrar órdenes de trabajo por estado
-    public void mostrarOrdenesPorEstado(String estado) {
-        if (mapaOrdenesPorEstado.containsKey(estado)) {
-            for (OrdenTrabajo orden : mapaOrdenesPorEstado.get(estado)) {
-                System.out.println(orden);
-            }
-        } else {
-            System.out.println("No hay órdenes de trabajo con el estado: " + estado);
-        }
-    }
-    
-    public void eliminarOrden(int idOrden){
-        // Buscar la orden de trabajo por su id.
-        for (Set<OrdenTrabajo> ordenesEstado : mapaOrdenesPorEstado.values()) {
-            for (OrdenTrabajo orden : ordenesEstado) {
-                if (orden.getIdOrden() == idOrden) {
-                    // Eliminar la orden encontrada.
-                    ordenesEstado.remove(orden);
-                    System.out.println("Orden de trabajo " + idOrden + " eliminada correctamente.");
-                    return;
-                }
-            }
-        }
-
-        System.out.println("No se encontró una orden de trabajo con el número " + idOrden + ".");
-        
-    }
 }
